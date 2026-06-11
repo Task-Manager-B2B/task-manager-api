@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-app = FastApi(
+app = FastAPI(
     title='Task B2B',
     description='Task Manager B2B',
     version='1.0.0'
