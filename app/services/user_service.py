@@ -9,6 +9,7 @@ from app.schemas.user import UserCreate
 def register(db: Session, data: UserCreate) -> User:
     user_repository = UserRepository()
     user = user_repository.get_by_email(db, data.email)
+    
     # verifica email duplicado
     if user:
         raise HTTPException(status_code=400, detail="Email já cadastrado")
@@ -17,10 +18,12 @@ def register(db: Session, data: UserCreate) -> User:
 def login(db: Session, email: str, password: str) -> str:#retorna token:
     user_repository = UserRepository()
     user = user_repository.get_by_email(db, email)
+    
     if not user:
         raise HTTPException(status_code=401, detail='Credenciais inválidas')
     #verifica senha
     if not verify_password(password, user.password):
         raise HTTPException(status_code=401, detail='Credenciais inválidas')
+    
     #gera token
-    return create_access_token({'sub': str(user.id)})
+    return create_access_token({'sub': str(user.id), 'role': user.role})

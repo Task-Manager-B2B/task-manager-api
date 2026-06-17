@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from app.db.base import Base
 from app.db import models
 from app.db.session import engine
+from app.api import auth
 
 Base.metadata.create_all(bind=engine)
 
@@ -12,6 +13,8 @@ app = FastAPI(
     version='1.0.0'
 )
 
+app.include_router(auth.router)
+
 @app.get('/health')
-async def health():
+def health():
     return {'status': 'OK'}

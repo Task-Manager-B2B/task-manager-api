@@ -7,9 +7,11 @@ class UserRepository:
     def create(self, db: Session, data: UserCreate) -> User:
         hashed = hash_password(data.password)
         user = User(**data.model_dump(exclude={'password'}), password=hashed)
+        
         db.add(user)
         db.commit()
         db.refresh(user)
+        
         return user
 
     def get_by_id(self, db: Session, user_id: int) -> User | None:
