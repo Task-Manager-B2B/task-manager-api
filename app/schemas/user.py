@@ -21,7 +21,6 @@ class UserOut(BaseModel):
     name: str
     email: str
     role: str
-    is_active: bool
     created_at: datetime
     
     model_config = ConfigDict(from_attributes=True)

@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from app.db.base import Base
 from app.db import models
 from app.db.session import engine
-from app.api import auth
+from app.api import auth, workspaces
 
 Base.metadata.create_all(bind=engine)
 
@@ -14,6 +14,7 @@ app = FastAPI(
 )
 
 app.include_router(auth.router)
+app.include_router(workspaces.router)
 
 @app.get('/health')
 def health():
